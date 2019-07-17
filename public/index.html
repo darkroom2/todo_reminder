@@ -6,8 +6,30 @@
 </head>
 <body>
     <h1>LED Control</h1>
-    <label for="ledGreen">Green LED</label><input id="ledGreen" type="checkbox">
-    <br>
-    <label for="ledRed">Red LED</label><input id="ledRed" type="checkbox">
+    <div id="leds">
+        <label for="ledGreen">Green LED</label>
+        <input id="ledGreen" type="checkbox">
+        <br>
+        <label for="ledRed">Red LED</label>
+        <input id="ledRed" type="checkbox">
+    </div>
 </body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    window.addEventListener('load', function () {
+        const ledsDiv = document.getElementById('leds');
+        const ledGreen = document.getElementById('ledGreen');
+        const ledRed = document.getElementById('ledRed');
+        ledsDiv.addEventListener('change', function () {
+            socket.emit('leds', {
+                'ledGreen': Number(ledGreen.checked),
+                'ledRed': Number(ledRed.checked)
+            });
+
+        });
+    });
+</script>
+
 </html>
